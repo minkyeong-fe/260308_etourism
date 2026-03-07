@@ -1,73 +1,94 @@
-# React + TypeScript + Vite
+# 이투어리즘 · 요금 계산 (과제 제출)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**과제:** 투숙일·객실타입·인원 입력 시, [시즌/요일 요금 + 조식×인원 + 엑스트라베드]를 계산하여 합계를 리턴하는 **함수** 구현 (React 선택)
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 핵심 구현: 견적 계산 함수
 
-## React Compiler
+| 항목        | 내용                                                                                |
+| ----------- | ----------------------------------------------------------------------------------- |
+| **함수**    | `calculateQuote`                                                                    |
+| **위치**    | `src/domain/pricing/engine.ts`                                                      |
+| **사용 예** | `import { calculateQuote } from '@/domain/pricing'` 후 `calculateQuote(input)` 호출 |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+요구사항 매핑 및 사용 예시는 **[docs/PRICING_ENGINE.md](docs/PRICING_ENGINE.md)** 의 「과제 요구사항 대비 핵심 함수」 섹션을 참고하세요.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 프로젝트 구조
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+├── .github/workflows/
+│   └── deploy.yml          # GitHub Pages 배포
+├── docs/
+│   ├── ASSIGNMENT.md       # 과제 원문
+│   └── PRICING_ENGINE.md   # 요금 엔진 설명
+├── src/
+│   ├── domain/pricing/     # 요금 계산 도메인
+│   │   ├── engine.ts       # calculateQuote (핵심 함수)
+│   │   ├── data.ts         # 요금표 조회
+│   │   ├── season.ts       # 시즌/주말 판별
+│   │   ├── seasonConfig.ts # 시즌 구간 기본값
+│   │   ├── types.ts        # 타입·상수
+│   │   ├── pricing.json    # 요금 데이터
+│   │   └── index.ts        # re-export
+│   ├── pages/Reservation/  # 예약 견적 화면
+│   │   ├── index.tsx
+│   │   ├── DatePickerField.tsx
+│   │   ├── PriceDetail.tsx
+│   │   ├── SeasonGuide.tsx
+│   │   └── usePriceCalculator.ts
+│   ├── shared/utils/
+│   │   ├── date.ts         # getStayDates, getNightsCount
+│   │   └── format.ts       # formatWon
+│   ├── components/ui/      # 공통 UI 컴포넌트 (button, card, dialog 등)
+│   ├── lib/utils.ts
+│   ├── App.tsx
+│   └── main.tsx
+├── tests/                  # Vitest (도메인·유틸)
+│   ├── domain/pricing/
+│   └── shared/utils/
+├── index.html
+├── package.json
+└── vite.config.ts
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 실행 방법
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
+
+## 테스트
+
+요금 계산 엔진 및 관련 유틸 테스트 (Vitest):
+
+```bash
+npm run test        # watch
+npm run test:run    # 1회 실행
+```
+
+- `tests/domain/pricing/engine.test.ts` — `calculateQuote`
+- `tests/domain/pricing/data.test.ts` — `getPricingRow`, `getRoomTypesForRegion`, `getRegionsForRoomType`, `REGION_OPTIONS`, `ROOM_TYPE_OPTIONS`
+- `tests/domain/pricing/season.test.ts` — `getSeason`, `isWeekend`
+- `tests/shared/utils/date.test.ts` — `getStayDates`, `getNightsCount`
+
+브라우저에서 예약 화면이 열리며, 날짜·지역·룸타입·인원을 입력하면 위 함수를 통해 견적이 계산·표시됩니다.
+
+---
+
+## 문서
+
+- **[docs/PRICING_ENGINE.md](docs/PRICING_ENGINE.md)** — 요금 계산 엔진 설명 (핵심 함수 강조 + 구현 상세)
+- **[docs/ASSIGNMENT.md](docs/ASSIGNMENT.md)** — 과제 원문
+
+---
+
+## 기술 스택
+
+- React 19, TypeScript, Vite
+- 요금 계산: `src/domain/pricing/` (순수 함수, UI 없이 단독 사용 가능)
