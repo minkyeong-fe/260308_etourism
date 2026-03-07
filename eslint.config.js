@@ -19,5 +19,9 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      // Fast Refresh는 파일이 컴포넌트만 export할 때만 동작. 상수/함수는 별도 파일로 분리.
+      'react-refresh/only-export-components': 'error',
+    },
   },
 ])
