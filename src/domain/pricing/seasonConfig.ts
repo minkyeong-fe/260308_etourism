@@ -13,5 +13,5 @@ export const DEFAULT_SEASON_CONFIG: SeasonConfig = {
   ],
 }
 
-/** 기본 주말 요일 (Temporal: 1=Mon … 5=Fri, 6=Sat, 7=Sun) → 금·토·일 */
-export const DEFAULT_WEEKEND_DAYS: number[] = [5, 6, 7]
+/** 기본 주말 요일 (Temporal: 1=Mon … 5=Fri, 6=Sat, 7=Sun) → 금·토 (평일: 일~목, 주말: 금~토) */
+export const DEFAULT_WEEKEND_DAYS: number[] = [5, 6]
