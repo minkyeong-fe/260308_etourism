@@ -64,7 +64,10 @@ export function PriceDetail({
           </div>
           <ul className="space-y-1 text-muted-foreground">
             {breakdown.stayDetails.map((d, i) => (
-              <li key={i} className="flex justify-between gap-2">
+              <li
+                key={i}
+                className="flex flex-col gap-0.5 md:flex-row md:justify-between md:gap-2"
+              >
                 <span>{formatStayDetailLine(d)}</span>
                 <span className="shrink-0">{formatWon(d.amount)}</span>
               </li>
@@ -74,11 +77,11 @@ export function PriceDetail({
       )}
 
       <div className="space-y-2">
-        <div className="flex items-center justify-between text-sm">
+        <div className="flex flex-col gap-0.5 md:flex-row md:items-center md:justify-between text-sm">
           <span className="text-muted-foreground">숙박</span>
           <span>{formatWon(breakdown.stay)}</span>
         </div>
-        <div className="flex items-center justify-between gap-2 text-sm">
+        <div className="flex flex-col gap-0.5 md:flex-row md:items-center md:justify-between md:gap-2 text-sm">
           <span className="text-muted-foreground">조식</span>
           <span className="text-right tabular-nums">
             <span className="text-muted-foreground">
@@ -90,7 +93,7 @@ export function PriceDetail({
             </span>
           </span>
         </div>
-        <div className="flex items-center justify-between gap-2 text-sm">
+        <div className="flex flex-col gap-0.5 md:flex-row md:items-center md:justify-between md:gap-2 text-sm">
           <span className="text-muted-foreground">엑스트라베드</span>
           <span className="text-right tabular-nums">
             <span className="text-muted-foreground">
@@ -103,7 +106,7 @@ export function PriceDetail({
           </span>
         </div>
       </div>
-      <div className="flex items-center justify-between border-t pt-3 text-base font-medium">
+      <div className="flex flex-col gap-0.5 md:flex-row md:items-center md:justify-between border-t pt-3 text-base font-medium">
         <span>합계</span>
         <span>{formatWon(total)}</span>
       </div>
