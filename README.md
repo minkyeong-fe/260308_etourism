@@ -6,7 +6,7 @@
 
 ## 배포 (GitHub Pages)
 
-주소: [https://minkyeong-fe.github.io/260308_-/](https://minkyeong-fe.github.io/260308_etourism/)
+주소: [https://minkyeong-fe.github.io/260308_etourism](https://minkyeong-fe.github.io/260308_etourism/)
 
 ---
 
