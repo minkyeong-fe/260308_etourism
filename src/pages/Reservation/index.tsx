@@ -56,8 +56,17 @@ export function ReservationPage() {
   const [checkOut, setCheckOut] = useState(() => tomorrowISO())
   const [region, setRegion] = useState<Region | ''>('')
   const [roomType, setRoomType] = useState<RoomType | ''>('')
-  const [guests, setGuests] = useState(1)
-  const [extraBeds, setExtraBeds] = useState(0)
+  const [guestsInput, setGuestsInput] = useState('1')
+  const [extraBedsInput, setExtraBedsInput] = useState('0')
+
+  const guests =
+    guestsInput === ''
+      ? 1
+      : Math.max(1, parseInt(guestsInput, 10) || 1)
+  const extraBeds =
+    extraBedsInput === ''
+      ? 0
+      : Math.max(0, parseInt(extraBedsInput, 10) || 0)
 
   const { result } = usePriceCalculator({
     checkIn,
@@ -211,10 +220,8 @@ export function ReservationPage() {
                   id="guests"
                   type="number"
                   min={1}
-                  value={guests}
-                  onChange={(e) =>
-                    setGuests(Math.max(1, Number(e.target.value) || 1))
-                  }
+                  value={guestsInput}
+                  onChange={(e) => setGuestsInput(e.target.value)}
                 />
               </div>
               <div className="space-y-2">
@@ -223,10 +230,8 @@ export function ReservationPage() {
                   id="extraBeds"
                   type="number"
                   min={0}
-                  value={extraBeds}
-                  onChange={(e) =>
-                    setExtraBeds(Math.max(0, Number(e.target.value) || 0))
-                  }
+                  value={extraBedsInput}
+                  onChange={(e) => setExtraBedsInput(e.target.value)}
                 />
               </div>
             </form>
