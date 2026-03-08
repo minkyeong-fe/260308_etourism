@@ -4,6 +4,12 @@
 
 ---
 
+## 배포 (GitHub Pages)
+
+주소: [https://minkyeong-fe.github.io/260308_etourism](https://minkyeong-fe.github.io/260308_etourism/)
+
+---
+
 ## 핵심 구현: 견적 계산 함수
 
 | 항목        | 내용                                                                                |
