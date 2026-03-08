@@ -69,7 +69,9 @@ export function PriceDetail({
                 className="flex flex-col gap-0.5 md:flex-row md:justify-between md:gap-2"
               >
                 <span>{formatStayDetailLine(d)}</span>
-                <span className="shrink-0">{formatWon(d.amount)}</span>
+                <span className="shrink-0 self-end tabular-nums md:self-auto">
+                  {formatWon(d.amount)}
+                </span>
               </li>
             ))}
           </ul>
@@ -79,11 +81,13 @@ export function PriceDetail({
       <div className="space-y-2">
         <div className="flex flex-col gap-0.5 md:flex-row md:items-center md:justify-between text-sm">
           <span className="text-muted-foreground">숙박</span>
-          <span>{formatWon(breakdown.stay)}</span>
+          <span className="self-end tabular-nums md:self-auto">
+            {formatWon(breakdown.stay)}
+          </span>
         </div>
         <div className="flex flex-col gap-0.5 md:flex-row md:items-center md:justify-between md:gap-2 text-sm">
           <span className="text-muted-foreground">조식</span>
-          <span className="text-right tabular-nums">
+          <span className="self-end text-right tabular-nums md:self-auto">
             <span className="text-muted-foreground">
               {formatWon(breakdown.breakfastDetail.rate, { suffix: true })} ×{' '}
               {breakdown.breakfastDetail.guests}명 × {breakdown.breakfastDetail.nights}박 =
@@ -95,7 +99,7 @@ export function PriceDetail({
         </div>
         <div className="flex flex-col gap-0.5 md:flex-row md:items-center md:justify-between md:gap-2 text-sm">
           <span className="text-muted-foreground">엑스트라베드</span>
-          <span className="text-right tabular-nums">
+          <span className="self-end text-right tabular-nums md:self-auto">
             <span className="text-muted-foreground">
               {formatWon(breakdown.extraBedDetail.rate, { suffix: true })} ×{' '}
               {breakdown.extraBedDetail.count}개 × {breakdown.extraBedDetail.nights}박 =
@@ -108,7 +112,9 @@ export function PriceDetail({
       </div>
       <div className="flex flex-col gap-0.5 md:flex-row md:items-center md:justify-between border-t pt-3 text-base font-medium">
         <span>합계</span>
-        <span>{formatWon(total)}</span>
+        <span className="self-end tabular-nums md:self-auto">
+          {formatWon(total)}
+        </span>
       </div>
     </div>
   )
